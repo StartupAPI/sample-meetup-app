@@ -56,7 +56,7 @@ if (!is_null($user)) {
 ?>
 <html>
 <head>
-	<title>Sample page</title>
+	<title>Sample Meetup Application</title>
 	<link rel="stylesheet" type="text/css" href="meetup.css"/>
 </head>
 <body>
@@ -130,7 +130,7 @@ if (!is_null($user)) {
 else
 {
 ?>
-<h1>Welcome!</h1>
+<h1>Sample Meetup Application!</h1>
 
 <?php
 	$meetup_module = AuthenticationModule::get('meetup');
