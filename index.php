@@ -5,13 +5,16 @@ require_once(dirname(__FILE__).'/users/users.php');
 $user = User::get();
 #$user = User::require_login();
 
-$fetched_groups = array();
+$fetched_groups_organizer = array();
+$fetched_groups_member = array();
 
 if (!is_null($user)) {
 	// You can work with users, but it's recommended to tie your data to accounts, not users
 	$current_account = Account::getCurrentAccount($user);
 
 	$creds = $user->getUserCredentials('meetup');
+	$meetup_info = $creds->getUserInfo();
+	$meetup_id = $meetup_info['id'];
 
 	$page = 0; // requesting first page
 	$keep_going = true;
@@ -25,12 +28,18 @@ if (!is_null($user)) {
 			$group_data = json_decode($result['body'], true);
 
 			foreach ($group_data['results'] as $group) {
-				$fetched_groups[] = array(
+				$group_info = array(
 					'name' => $group['name'],
 					'link' => $group['link'],
 					'logo' => $group['group_photo']['thumb_link'],
 					'members' => $group['members']
 				);
+
+				if ($group['organizer']['member_id'] == $meetup_id) {
+					$fetched_groups_organizer[] = $group_info;
+				} else {
+					$fetched_groups_member[] = $group_info;
+				}
 			}
 
 			// keep going while next meta parameter is set
@@ -60,26 +69,58 @@ if (!is_null($user)) {
 
 <?php
 
-	usort($fetched_groups, function($a, $b) {
+	usort($fetched_groups_organizer, function($a, $b) {
 		return $a['members'] > $b['members'] ? -1 : 1;
 	});
 
-	if (count($fetched_groups)) {
+	usort($fetched_groups_member, function($a, $b) {
+		return $a['members'] > $b['members'] ? -1 : 1;
+	});
+
+	if (count($fetched_groups_member) || count($fetched_groups_organizer)) {
+		if (count($fetched_groups_organizer)) {
 ?>
-<h3>Your groups:</h3>
-<ul id="groups">
+<h3>You organize:</h3>
+<ul class="groups">
 <?php
-		foreach ($fetched_groups as $group) {
-			?><li>
-				<div class="logo"><img src="<?php echo $group['logo'] ?>" /></div>
-				<a href="<?php echo $group['link'] ?>"><?php echo $group['name'] ?></a><br/>
-				<?php echo $group['members'] ?> members
-				<div class="clb"/>
-			</li><?php
-		}
+			foreach ($fetched_groups_organizer as $group) {
+				?><li>
+					<div class="logo">
+					<?php if ($group['logo'] != '') { ?>
+						<img src="<?php echo $group['logo'] ?>" />
+					<?php } ?>
+					</div>
+					<a href="<?php echo $group['link'] ?>"><?php echo $group['name'] ?></a><br/>
+					<?php echo $group['members'] ?> members
+					<div class="clb"/>
+				</li><?php
+			}
 ?>
 </ul>
 <?php
+		}
+
+		if (count($fetched_groups_member)) {
+?>
+<h3>You're a member:</h3>
+<ul class="groups">
+<?php
+			foreach ($fetched_groups_member as $group) {
+				?><li>
+					<div class="logo">
+					<?php if ($group['logo'] != '') { ?>
+						<img src="<?php echo $group['logo'] ?>" />
+					<?php } ?>
+					</div>
+					<a href="<?php echo $group['link'] ?>"><?php echo $group['name'] ?></a><br/>
+					<?php echo $group['members'] ?> members
+					<div class="clb"/>
+				</li><?php
+			}
+?>
+</ul>
+<?php
+		}
 	} else { ?>
 		<p>You still didn't join any groups?!</p>
 		<p><a href="http://www.meetup.com/find/">Find a group and join immediately!</a></p>
