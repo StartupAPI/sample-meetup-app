@@ -67,6 +67,12 @@ if (!is_null($user)) {
 ?>
 <h1>Welcome, <?php echo $user->getName() ?>!</h1>
 
+<div style="width: 400px; max-width: 100%">
+<a href="http://github.com/StartupAPI/users/" target="_blank" style="float: left"><img alt="Octocat.png" src="http://startupapi.org/w/images/thumb/6/61/Octocat.png/50px-Octocat.png" width="50" height="50" border="0" align="top" style="margin-right: 1em"></a>
+This is a sample Meetup application powered by Startup API, you can see the <a href="http://github.com/StartupAPI/users/" target="_blank">code on Github</a>.
+</div>
+<div style="clear: both"></div>
+
 <?php
 
 	usort($fetched_groups_organizer, function($a, $b) {
@@ -137,5 +143,6 @@ else
 	?><p><?php $meetup_module->renderRegistrationForm(); ?></p><?php
 }
 ?> 
+
 </body>
 </html>
