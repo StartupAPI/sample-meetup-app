@@ -25,7 +25,7 @@ if (!is_null($user)) {
 			'GET'
 		);
 		if ($result['code'] == 200) {
-			$group_data = json_decode($result['body'], true);
+			$group_data = json_decode(utf8_encode($result['body']), true);
 
 			foreach ($group_data['results'] as $group) {
 				$group_info = array(
@@ -68,8 +68,8 @@ if (!is_null($user)) {
 <h1>Welcome, <?php echo $user->getName() ?>!</h1>
 
 <div style="width: 400px; max-width: 100%">
-<a href="http://github.com/StartupAPI/users/" target="_blank" style="float: left"><img alt="Octocat.png" src="http://startupapi.org/w/images/thumb/6/61/Octocat.png/50px-Octocat.png" width="50" height="50" border="0" align="top" style="margin-right: 1em"></a>
-This is a sample Meetup application powered by Startup API, you can see the <a href="http://github.com/StartupAPI/users/" target="_blank">code on Github</a>.
+<a href="https://github.com/StartupAPI/sample-meetup-app/" target="_blank" style="float: left"><img alt="Octocat.png" src="http://startupapi.org/w/images/thumb/6/61/Octocat.png/50px-Octocat.png" width="50" height="50" border="0" align="top" style="margin-right: 1em"></a>
+This is a sample Meetup application powered by <a href="http://www.startupapi.com">Startup API</a>, you can see the <a href="https://github.com/StartupAPI/sample-meetup-app/" target="_blank">code on Github</a>.
 </div>
 <div style="clear: both"></div>
 
