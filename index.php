@@ -57,10 +57,11 @@ if (!is_null($user)) {
 <html>
 <head>
 	<title>Sample Meetup Application</title>
+	<?php StartupAPI::head(); ?>
 	<link rel="stylesheet" type="text/css" href="meetup.css"/>
 </head>
 <body>
-<div style="float: right"><?php include(dirname(__FILE__).'/users/navbox.php'); ?></div>
+<div style="float: right"><?php StartupAPI::power_strip(); ?></div>
 <?php
 
 if (!is_null($user)) {
