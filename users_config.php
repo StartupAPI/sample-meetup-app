@@ -15,8 +15,14 @@ UserConfig::$SESSION_SECRET = $randomness;
 UserConfig::$mysql_db = $mysql_db;
 UserConfig::$mysql_user = $mysql_user;
 UserConfig::$mysql_password = $mysql_password;
-#UserConfig::$mysql_host = 'localhost';
-#UserConfig::$mysql_port = 3306;
+UserConfig::$mysql_host = isset($mysql_host) ? $mysql_host : 'localhost';
+UserConfig::$mysql_port = isset($mysql_port) ? $mysql_port : 3306;
+UserConfig::$mysql_socket = isset($mysql_port) ? $mysql_socket : null;
+
+/*
+ * Name of your application to be used in UI and emails to users
+ */
+UserConfig::$appName = 'Sample Meetup Application';
 
 /**
  * User IDs of admins for this instance (to be able to access dashboard at /users/admin/)

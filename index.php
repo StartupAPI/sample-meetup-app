@@ -21,7 +21,7 @@ if (!is_null($user)) {
 
 	while($keep_going) {
 		$result = $creds->makeOAuthRequest(
-			'http://api.meetup.com/2/groups?order=name&member_id=self',
+			'https://api.meetup.com/2/groups?order=name&member_id=self',
 			'GET'
 		);
 		if ($result['code'] == 200) {
@@ -69,7 +69,7 @@ if (!is_null($user)) {
 <h1>Welcome, <?php echo $user->getName() ?>!</h1>
 
 <div style="width: 400px; max-width: 100%">
-<a href="https://github.com/StartupAPI/sample-meetup-app/" target="_blank" style="float: left"><img alt="Octocat.png" src="http://startupapi.org/w/images/thumb/6/61/Octocat.png/50px-Octocat.png" width="50" height="50" border="0" align="top" style="margin-right: 1em"></a>
+<a href="https://github.com/StartupAPI/sample-meetup-app/" target="_blank" style="float: left"><img alt="Octocat.png" src="/octocat.png" width="50" height="50" border="0" align="top" style="margin-right: 1em"></a>
 This is a sample Meetup application powered by <a href="http://www.startupapi.com">Startup API</a>, you can see the <a href="https://github.com/StartupAPI/sample-meetup-app/" target="_blank">code on Github</a>.
 </div>
 <div style="clear: both"></div>
@@ -91,10 +91,11 @@ This is a sample Meetup application powered by <a href="http://www.startupapi.co
 <ul class="groups">
 <?php
 			foreach ($fetched_groups_organizer as $group) {
+				$logo = $group['logo'];
 				?><li>
 					<div class="logo">
 					<?php if ($group['logo'] != '') { ?>
-						<img src="<?php echo $group['logo'] ?>" />
+						<img src="<?php echo $logo ?>" />
 					<?php } ?>
 					</div>
 					<a href="<?php echo $group['link'] ?>"><?php echo $group['name'] ?></a><br/>
@@ -113,10 +114,11 @@ This is a sample Meetup application powered by <a href="http://www.startupapi.co
 <ul class="groups">
 <?php
 			foreach ($fetched_groups_member as $group) {
+				$logo = $group['logo'];
 				?><li>
 					<div class="logo">
 					<?php if ($group['logo'] != '') { ?>
-						<img src="<?php echo $group['logo'] ?>" />
+						<img src="<?php echo $logo ?>" />
 					<?php } ?>
 					</div>
 					<a href="<?php echo $group['link'] ?>"><?php echo $group['name'] ?></a><br/>
