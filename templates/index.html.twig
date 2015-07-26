@@ -1,0 +1,104 @@
+{% extends '@startupapi/page.html.twig' %}
+{% block content %}
+
+<style>
+.panel-heading {
+	height: 2em;
+	border-top-left-radius: 0.8em;
+	border-top-right-radius: 0.8em;
+}
+.panel-footer {
+	padding: 0.5em;
+	border-bottom-left-radius: 0.8em;
+	border-bottom-right-radius: 0.8em;
+}
+.panel {
+	border-top-left-radius: 0.8em;
+	border-top-right-radius: 0.8em;
+	border-bottom-left-radius: 0.8em;
+	border-bottom-right-radius: 0.8em;
+	width: 17em;
+	margin: 1em;
+}
+.panel-default>.panel-heading, .panel-default>.panel-footer {
+	background-color: red;
+}
+.media-object {
+	max-width: 4em;
+	max-height: 4em;
+}
+.media-heading {
+	height: 3.5em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+h3 {
+	clear: both;
+}
+</style>
+
+<div class="container">
+	<div class="row">
+		<h1>Welcome, {{name}}!</h1>
+
+		{% if fetched_groups_organizer|length > 0 %}
+			<h3>You organize:</h3>
+
+			{% for group in fetched_groups_organizer %}
+			<div class="panel panel-default pull-left">
+				<div class="panel-heading"></div>
+				<div class="panel-body">
+					<div class="media">
+						<div class="media-left">
+							<a target="_blank" href="{{group.link}}">
+							<img class="media-object" src="{{group.logo}}">
+							</a>
+						</div>
+						<div class="media-body">
+							<h4 class="media-heading">
+								<a target="_blank" href="{{group.link}}">{{group.name}}</a>
+							</h4>
+							{{group.members}} members
+						</div>
+					</div>
+
+				</div>
+				<div class="panel-footer"></div>
+			</div>
+			{% endfor %}
+		{% endif %}
+
+		{% if fetched_groups_member|length > 0 %}
+			<h3>You are a member:</h3>
+
+			{% for group in fetched_groups_member %}
+			<div class="panel panel-default pull-left">
+				<div class="panel-heading"></div>
+				<div class="panel-body">
+					<div class="media">
+						<div class="media-left">
+							<a target="_blank" href="{{group.link}}">
+							<img class="media-object" src="{{group.logo}}">
+							</a>
+						</div>
+						<div class="media-body">
+							<h4 class="media-heading">
+								<a target="_blank" href="{{group.link}}">{{group.name}}</a>
+							</h4>
+							{{group.members}} members
+						</div>
+					</div>
+
+				</div>
+				<div class="panel-footer"></div>
+			</div>
+			{% endfor %}
+		{% endif %}
+
+		{% if fetched_groups_organizer|length == 0 and fetched_groups_member|length == 0 %}
+			<p>You still didn't join any groups?!</p>
+			<p><a target="_blank" href="http://www.meetup.com/find/">Find a group and join immediately!</a></p>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
