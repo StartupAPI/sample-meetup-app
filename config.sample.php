@@ -24,3 +24,18 @@ $mysql_password = '...password...';
  */
 $meetup_OAuth_consumer_key = '...oauth.key.goes.here...';
 $meetup_OAuth_consumer_secret = '...oauth.secret.goes.here...';
+
+/**
+ * SMTP host
+ */
+$amazonSMTPHost = 'email-smtp.us-east-1.amazonaws.com';
+
+/**
+ * SMTP UserName
+ */
+$amazonSMTPUserName = '';
+
+/**
+ * SMTP Password
+ */
+$amazonSMTPPassword = '';
