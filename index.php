@@ -15,41 +15,39 @@ $meetup_id = $meetup_info['id'];
 
 $page = 0; // requesting first page
 $keep_going = true;
+$max_pages = 20;
 
-while($keep_going) {
-	$result = $creds->makeOAuthRequest(
+while($keep_going && $page <= $max_pages) {
+	$result = $creds->makeOAuth2Request(
 		'https://api.meetup.com/2/groups?order=name&member_id=self',
 		'GET'
 	);
-	if ($result['code'] == 200) {
-		$group_data = json_decode(utf8_encode($result['body']), true);
 
-		foreach ($group_data['results'] as $group) {
-			$group_info = array(
-				'name' => $group['name'],
-				'link' => $group['link'],
-				'members' => $group['members']
-			);
+	$group_data = json_decode(utf8_encode($result), true);
 
-			if (array_key_exists('group_photo', $group)) {
-				$group_info['logo'] = $group['group_photo']['thumb_link'];
-			}
+	foreach ($group_data['results'] as $group) {
+		$group_info = array(
+			'name' => $group['name'],
+			'link' => $group['link'],
+			'members' => $group['members']
+		);
 
-			if ($group['organizer']['member_id'] == $meetup_id) {
-				$fetched_groups_organizer[] = $group_info;
-			} else {
-				$fetched_groups_member[] = $group_info;
-			}
+		if (array_key_exists('group_photo', $group)) {
+			$group_info['logo'] = $group['group_photo']['thumb_link'];
 		}
 
-		// keep going while next meta parameter is set
-		$keep_going = $group_data['meta']['next'] !== '';
-
-		if ($keep_going) {	
-			$page++;
+		if ($group['organizer']['member_id'] == $meetup_id) {
+			$fetched_groups_organizer[] = $group_info;
+		} else {
+			$fetched_groups_member[] = $group_info;
 		}
-	} else {
-		$keep_going = false;
+	}
+
+	// keep going while next meta parameter is set
+	$keep_going = $group_data['meta']['next'] !== '';
+
+	if ($keep_going) {
+		$page++;
 	}
 }
 
